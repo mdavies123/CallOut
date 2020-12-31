@@ -1,4 +1,4 @@
-CallOut.Settings = {
+CallOutSettings = CallOutSettings or {
   Enabled = true,
   
   Targets = {
