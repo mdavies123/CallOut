@@ -3,7 +3,16 @@ local pairs = pairs
 local print = print
 local tinsert = table.insert
 
+local SpellcastStarts = {}
+local SpellcastSucceeds = {}
+
 CallOut = {}
+
+local function PlayCallOut(sound)
+  if CallOut.Settings.Enabled then
+    print(sound)
+  end
+end
 
 local function HandleEvent(self, event, ...)
 	CallOut.Events[event].Handle(self, event, ...)
@@ -20,22 +29,28 @@ local function HandleLogin(self, event, ...)
 end
 
 local function HandleUnitSpellcastStart(self, event, unitTarget, castGUID, spellID)
-  print(spellID, CallOut.Media[spellID])
+  if CallOut.Settings.Targets[unitTarget] and CallOut.Settings.SpellIDs[spellID] then
+    PlayCallOut(CallOut.Sounds[spellID].Name)
+  end  
 end
 
 local function HandleUnitSpellcastChannelStart(self, event, unit, castGUID, spellID)
-  print(spellID, CallOut.Media[spellID])
+  if CallOut.Settings.Targets[unitTarget] and CallOut.Settings.SpellIDs[spellID] then
+    PlayCallOut(CallOut.Sounds[spellID].Name)
+  end  
 end
 
 local function HandleUnitSpellcastSucceeded(self, event, unit, castGUID, spellID)
-  print(spellID, CallOut.Media[spellID])
+  if CallOut.Settings.Targets[unitTarget] and CallOut.Settings.SpellIDs[spellID] then
+    PlayCallOut(CallOut.Sounds[spellID].Name)
+  end  
 end
 
 CallOut.Events = {
   PLAYER_LOGIN = {Units = nil, Handle = HandleLogin},
-  UNIT_SPELLCAST_START = {Units = nil, Handle = HandleUnitSpellcastStart},  -- handles spell cast starts
-  UNIT_SPELLCAST_CHANNEL_START = {Units = nil, Handle = HandleUnitSpellcastChannelStart}, -- handles spell channel starts
-  UNIT_SPELLCAST_SUCCEEDED = {Units = nil, Handle = HandleUnitSpellcastSucceeded} -- handles instant non-cast spells
+  UNIT_SPELLCAST_START = {Units = nil, Handle = HandleUnitSpellcastStart},  -- regular spell casts
+  UNIT_SPELLCAST_CHANNEL_START = {Units = nil, Handle = HandleUnitSpellcastChannelStart}, -- channeling spells
+  UNIT_SPELLCAST_SUCCEEDED = {Units = nil, Handle = HandleUnitSpellcastSucceeded} -- instant spell casts
 }
 
 CallOut.RegisteredEventUpdateFrame = CreateFrame("Frame", nil, UIParent)
