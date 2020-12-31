@@ -1,0 +1,6 @@
+## Interface: 90002
+## Title: CallOut
+## Notes: Audibly calls out unit casts as they happen.
+
+CallOut.lua
+
