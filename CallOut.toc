@@ -3,4 +3,5 @@
 ## Notes: Audibly calls out unit casts as they happen.
 
 CallOut.lua
+CallOutMedia.lua
 
